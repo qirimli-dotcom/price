@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Прайс IT-Trade</title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>emailjs.init("9ARKPvGTU2pExxVWF");</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f4f6f9; color: #333; }
+header { background: #1c4587; color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+header h1 { font-size: 18px; font-weight: 500; }
+.updated { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.cart-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+.badge { background: #ff6b35; border-radius: 50%; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+.container { max-width: 1100px; margin: 0 auto; padding: 24px 16px; }
+.tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.tab { padding: 8px 20px; border: 1px solid #ddd; border-radius: 8px; background: #fff; cursor: pointer; font-size: 14px; color: #555; }
+.tab.active { background: #1c4587; color: #fff; border-color: #1c4587; }
+.search-box { margin-bottom: 16px; }
+.search-box input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; outline: none; }
+table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+th { background: #1c4587; color: #fff; padding: 12px 14px; text-align: left; font-size: 13px; font-weight: 500; }
+td { padding: 10px 14px; border-bottom: 1px solid #f0f0f0; font-size: 13px; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #f8fafc; }
+.stars { color: #f5a623; }
+.price { font-weight: 600; color: #1c4587; }
+.qty-input { width: 52px; padding: 5px 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; text-align: center; }
+.add-btn { background: #1c4587; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.add-btn.added { background: #27ae60; }
+.art { color: #888; font-size: 12px; }
+.cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; }
+.cart-overlay.open { display: block; }
+.cart-panel { position: fixed; top: 0; right: -420px; width: 420px; height: 100%; background: #fff; z-index: 201; display: flex; flex-direction: column; transition: right 0.25s; box-shadow: -4px 0 20px rgba(0,0,0,0.15); }
+.cart-panel.open { right: 0; }
+.cart-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; }
+.cart-close { background: none; border: none; font-size: 22px; cursor: pointer; color: #888; }
+.cart-items { flex: 1; overflow-y: auto; padding: 16px 20px; }
+.cart-item { display: flex; justify-content: space-between; align-items: flex-start; padding: 12px 0; border-bottom: 1px solid #f0f0f0; gap: 12px; }
+.cart-item-name { font-size: 13px; flex: 1; }
+.cart-item-art { font-size: 11px; color: #999; margin-top: 2px; }
+.cart-item-price { font-size: 13px; font-weight: 600; color: #1c4587; }
+.cart-item-qty { font-size: 12px; color: #888; }
+.cart-remove { background: none; border: none; color: #ccc; cursor: pointer; font-size: 16px; }
+.cart-empty { text-align: center; color: #aaa; padding: 40px 0; font-size: 14px; }
+.cart-footer { padding: 20px; border-top: 1px solid #eee; }
+.cart-total { display: flex; justify-content: space-between; font-size: 15px; font-weight: 600; margin-bottom: 16px; }
+.cart-footer input, .cart-footer textarea { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; margin-bottom: 10px; font-family: inherit; outline: none; }
+.cart-footer textarea { min-height: 60px; resize: none; }
+.submit-btn { width: 100%; background: #1c4587; color: #fff; border: none; padding: 12px; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; }
+.success-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #fff; border-radius: 12px; padding: 32px; text-align: center; z-index: 300; box-shadow: 0 8px 32px rgba(0,0,0,0.2); max-width: 320px; width: 90%; }
+.success-modal.open { display: block; }
+.success-modal h3 { font-size: 18px; margin-bottom: 8px; color: #27ae60; }
+.success-modal p { font-size: 14px; color: #666; margin-bottom: 20px; }
+.success-modal button { background: #1c4587; color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; }
+@media (max-width: 600px) { .cart-panel { width: 100%; } }
+</style>
+</head>
+<body>
+<header>
+  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: ##UPDATED##</div></div>
+  <button class="cart-btn" onclick="toggleCart()">&#128722; Корзина <span class="badge" id="cart-badge">0</span></button>
+</header>
+<div class="container">
+  <div class="tabs" id="tabs"></div>
+  <div class="search-box"><input type="text" id="search" placeholder="Поиск по наименованию или артикулу..." oninput="renderTable()" /></div>
+  <table>
+    <thead><tr><th>Арт. поставщика</th><th>Наименование</th><th>Наличие</th><th>Цена (RUB)</th><th>Кол-во</th><th></th></tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<div class="cart-panel" id="cart-panel">
+  <div class="cart-header"><h2 style="font-size:16px;font-weight:500">Корзина</h2><button class="cart-close" onclick="toggleCart()">&#215;</button></div>
+  <div class="cart-items" id="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Итого позиций:</span><span id="cart-count">0</span></div>
+    <input type="text" id="c-name" placeholder="Ваше имя *" />
+    <input type="text" id="c-contact" placeholder="Телефон или Telegram *" />
+    <textarea id="c-comment" placeholder="Комментарий"></textarea>
+    <button class="submit-btn" onclick="submitOrder()">Отправить заявку</button>
+  </div>
+</div>
+<div class="success-modal" id="success-modal">
+  <h3>&#10003; Заявка отправлена!</h3>
+  <p>Мы свяжемся с вами в ближайшее время.</p>
+  <button onclick="document.getElementById('success-modal').classList.remove('open');renderTable()">Хорошо</button>
+</div>
+<script>
+var PRODUCTS = ##PRODUCTS##;
+var brand = Object.keys(PRODUCTS)[0] || "";
+var cart = {};
+
+var tabsEl = document.getElementById("tabs");
+Object.keys(PRODUCTS).forEach(function(b) {
+  var btn = document.createElement("button");
+  btn.className = "tab" + (b === brand ? " active" : "");
+  btn.textContent = b;
+  btn.addEventListener("click", function() {
+    brand = b;
+    document.querySelectorAll(".tab").forEach(function(t){ t.classList.remove("active"); });
+    btn.classList.add("active");
+    renderTable();
+  });
+  tabsEl.appendChild(btn);
+});
+
+function renderTable() {
+  var search = document.getElementById("search").value.toLowerCase();
+  var tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+  var items = (PRODUCTS[brand] || []).filter(function(p){
+    return p.name.toLowerCase().indexOf(search) >= 0 || String(p.art).toLowerCase().indexOf(search) >= 0;
+  });
+  if (!items.length) {
+    tbody.innerHTML = "<tr><td colspan='6' style='text-align:center;color:#aaa;padding:32px'>Ничего не найдено</td></tr>";
+    return;
+  }
+  items.forEach(function(p, i) {
+    var key = brand + "_" + i;
+    var tr = document.createElement("tr");
+    var td1 = document.createElement("td"); td1.className = "art"; td1.textContent = p.art; tr.appendChild(td1);
+    var td2 = document.createElement("td"); td2.textContent = p.name; tr.appendChild(td2);
+    var td3 = document.createElement("td"); td3.innerHTML = "<span class='stars'>" + p.stars + "</span>"; tr.appendChild(td3);
+    var td4 = document.createElement("td"); td4.className = "price"; td4.textContent = Math.round(p.price); tr.appendChild(td4);
+    var td5 = document.createElement("td");
+    var inp = document.createElement("input");
+    inp.className = "qty-input"; inp.type = "number"; inp.min = "1"; inp.value = "1"; inp.id = "qty_" + key;
+    td5.appendChild(inp); tr.appendChild(td5);
+    var td6 = document.createElement("td");
+    var btn = document.createElement("button");
+    btn.className = "add-btn" + (cart[key] ? " added" : "");
+    btn.id = "btn_" + key;
+    btn.textContent = cart[key] ? "Добавлено" : "В корзину";
+    (function(k, pp) {
+      btn.addEventListener("click", function() {
+        var qty = parseInt(document.getElementById("qty_" + k).value) || 1;
+        cart[k] = { art: pp.art, name: pp.name, price: pp.price, qty: qty };
+        var b2 = document.getElementById("btn_" + k);
+        if (b2) { b2.className = "add-btn added"; b2.textContent = "Добавлено"; }
+        updateCartUI();
+      });
+    })(key, p);
+    td6.appendChild(btn); tr.appendChild(td6);
+    tbody.appendChild(tr);
+  });
+}
+
+function updateCartUI() {
+  var c = Object.keys(cart).length;
+  document.getElementById("cart-badge").textContent = c;
+  document.getElementById("cart-count").textContent = c;
+}
+
+function renderCartItems() {
+  var el = document.getElementById("cart-items");
+  var items = Object.entries(cart);
+  if (!items.length) { el.innerHTML = "<p class='cart-empty'>Корзина пуста</p>"; return; }
+  el.innerHTML = items.map(function(e) {
+    var k = e[0], it = e[1];
+    return "<div class='cart-item'>" +
+      "<div style='flex:1'><div class='cart-item-name'>" + it.name + "</div><div class='cart-item-art'>" + it.art + "</div></div>" +
+      "<div style='text-align:right;flex-shrink:0'><div class='cart-item-price'>" + Math.round(it.price * it.qty) + "</div><div class='cart-item-qty'>" + it.qty + " шт</div></div>" +
+      "<button class='cart-remove' data-key='" + k + "'>&#215;</button>" +
+      "</div>";
+  }).join("");
+  el.querySelectorAll(".cart-remove").forEach(function(btn) {
+    btn.addEventListener("click", function() { removeFromCart(btn.getAttribute("data-key")); });
+  });
+}
+
+function removeFromCart(k) { delete cart[k]; updateCartUI(); renderCartItems(); renderTable(); }
+
+function toggleCart() {
+  var p = document.getElementById("cart-panel");
+  var o = document.getElementById("cart-overlay");
+  if (!p.classList.contains("open")) renderCartItems();
+  p.classList.toggle("open");
+  o.classList.toggle("open");
+}
+
+function submitOrder() {
+  var name = document.getElementById("c-name").value.trim();
+  var contact = document.getElementById("c-contact").value.trim();
+  var comment = document.getElementById("c-comment").value.trim();
+  var items = Object.values(cart);
+  if (!name) { alert("Укажите ваше имя"); return; }
+  if (!contact) { alert("Укажите телефон или Telegram"); return; }
+  if (!items.length) { alert("Корзина пуста"); return; }
+  var order = "";
+  items.forEach(function(i) { order += i.art + " | " + i.name + " | " + i.qty + " шт | " + Math.round(i.price * i.qty) + " руб.\n"; });
+  emailjs.send("service_v8tafrn", "template_yzytwbd", {
+    from_name: name,
+    contact: contact,
+    comment: comment || "-",
+    order: order
+  }).then(function() {
+    document.getElementById("cart-panel").classList.remove("open");
+    document.getElementById("cart-overlay").classList.remove("open");
+    document.getElementById("success-modal").classList.add("open");
+    cart = {}; updateCartUI();
+  }, function(error) {
+    alert("Ошибка отправки: " + JSON.stringify(error));
+  });
+}
+
+renderTable();
+</script>
+</body>
+</html>
