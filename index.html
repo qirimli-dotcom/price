@@ -189,14 +189,7 @@ function submitOrder() {
   if (!name) { alert("Укажите ваше имя"); return; }
   if (!contact) { alert("Укажите телефон или Telegram"); return; }
   if (!items.length) { alert("Корзина пуста"); return; }
-  var body = "Новая заявка с прайса IT-Trade
-
-Клиент: " + name + "
-Контакт: " + contact + (comment ? "
-Комментарий: " + comment : "") + "
-
-Позиции:
-";
+  var body = "Новая заявка с прайса IT-Trade\n\nКлиент: " + name + "\nКонтакт: " + contact + (comment ? "\nКомментарий: " + comment : "") + "\n\nПозиции:\n";
   items.forEach(function(i) { body += "- " + i.art + " | " + i.name + " | " + i.qty + " шт | " + (i.price * i.qty) + "
 "; });
   window.location.href = "mailto:info@it-trade.com.ru?subject=" + encodeURIComponent("Заявка от " + name) + "&body=" + encodeURIComponent(body);
