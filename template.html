@@ -119,7 +119,7 @@ function renderTable() {
     return;
   }
   items.forEach(function(p, i) {
-    var key = brand + "_" + i;
+    var key = brand + "_" + PRODUCTS[brand].indexOf(p);
     var tr = document.createElement("tr");
     var tdNum = document.createElement("td"); tdNum.style.color="#aaa"; tdNum.style.fontSize="11px"; tdNum.textContent = i+1; tr.appendChild(tdNum);
     var td1 = document.createElement("td"); td1.className = "art"; td1.textContent = p.art; tr.appendChild(td1);
