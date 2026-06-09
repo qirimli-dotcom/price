@@ -58,7 +58,7 @@ tr:hover td { background: #f8fafc; }
 </head>
 <body>
 <header>
-  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: 09.06.2026, 10:50:19 МСК</div></div>
+  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: 09.06.2026, 10:54:01 МСК</div></div>
   <button class="cart-btn" onclick="toggleCart()">&#128722; Корзина <span class="badge" id="cart-badge">0</span></button>
 </header>
 <div class="container">
@@ -124,7 +124,7 @@ function renderTable() {
     var td1 = document.createElement("td"); td1.className = "art"; td1.textContent = p.art; tr.appendChild(td1);
     var td2 = document.createElement("td"); td2.textContent = p.name; tr.appendChild(td2);
     var td3 = document.createElement("td"); td3.innerHTML = "<span class='stars'>" + p.stars + "</span>"; tr.appendChild(td3);
-    var td4 = document.createElement("td"); td4.className = "price"; td4.textContent = p.price.toLocaleString("ru") + " &#8381;"; tr.appendChild(td4);
+    var td4 = document.createElement("td"); td4.className = "price"; td4.textContent = Math.round(p.price); tr.appendChild(td4);
     var td5 = document.createElement("td");
     var inp = document.createElement("input");
     inp.className = "qty-input"; inp.type = "number"; inp.min = "1"; inp.value = "1"; inp.id = "qty_" + key;
@@ -162,7 +162,7 @@ function renderCartItems() {
     var k = e[0], it = e[1];
     return "<div class='cart-item'>" +
       "<div style='flex:1'><div class='cart-item-name'>" + it.name + "</div><div class='cart-item-art'>" + it.art + "</div></div>" +
-      "<div style='text-align:right;flex-shrink:0'><div class='cart-item-price'>" + (it.price * it.qty).toLocaleString("ru") + " &#8381;</div><div class='cart-item-qty'>" + it.qty + " шт</div></div>" +
+      "<div style='text-align:right;flex-shrink:0'><div class='cart-item-price'>" + Math.round(it.price * it.qty) + "</div><div class='cart-item-qty'>" + it.qty + " шт</div></div>" +
       "<button class='cart-remove' data-key='" + k + "'>&#215;</button>" +
       "</div>";
   }).join("");
@@ -190,7 +190,7 @@ function submitOrder() {
   if (!contact) { alert("Укажите телефон или Telegram"); return; }
   if (!items.length) { alert("Корзина пуста"); return; }
   var body = "Новая заявка с прайса IT-Trade\n\nКлиент: " + name + "\nКонтакт: " + contact + (comment ? "\nКомментарий: " + comment : "") + "\n\nПозиции:\n";
-  items.forEach(function(i) { body += "- " + i.art + " | " + i.name + " | " + i.qty + " шт | " + (i.price * i.qty).toLocaleString("ru") + " руб.\n"; });
+  items.forEach(function(i) { body += "- " + i.art + " | " + i.name + " | " + i.qty + " шт | " + (i.price * i.qty) + "\n"; });
   window.location.href = "mailto:info@it-trade.com.ru?subject=" + encodeURIComponent("Заявка от " + name) + "&body=" + encodeURIComponent(body);
   document.getElementById("cart-panel").classList.remove("open");
   document.getElementById("cart-overlay").classList.remove("open");
