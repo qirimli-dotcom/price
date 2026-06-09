@@ -58,7 +58,7 @@ tr:hover td { background: #f8fafc; }
 </head>
 <body>
 <header>
-  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: 09.06.2026, 10:54:01 МСК</div></div>
+  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: 09.06.2026, 10:58:59 МСК</div></div>
   <button class="cart-btn" onclick="toggleCart()">&#128722; Корзина <span class="badge" id="cart-badge">0</span></button>
 </header>
 <div class="container">
@@ -91,7 +91,7 @@ var PRODUCTS = {"Slinex":[{"art":"","name":"Slinex KIT SM-07MHD цвет гра�
 var brand = Object.keys(PRODUCTS)[0] || "";
 var cart = {};
 
-document.getElementById("updated-time").textContent = "Обновлено: данные загружаются";
+
 
 var tabsEl = document.getElementById("tabs");
 Object.keys(PRODUCTS).forEach(function(b) {
@@ -189,8 +189,16 @@ function submitOrder() {
   if (!name) { alert("Укажите ваше имя"); return; }
   if (!contact) { alert("Укажите телефон или Telegram"); return; }
   if (!items.length) { alert("Корзина пуста"); return; }
-  var body = "Новая заявка с прайса IT-Trade\n\nКлиент: " + name + "\nКонтакт: " + contact + (comment ? "\nКомментарий: " + comment : "") + "\n\nПозиции:\n";
-  items.forEach(function(i) { body += "- " + i.art + " | " + i.name + " | " + i.qty + " шт | " + (i.price * i.qty) + "\n"; });
+  var body = "Новая заявка с прайса IT-Trade
+
+Клиент: " + name + "
+Контакт: " + contact + (comment ? "
+Комментарий: " + comment : "") + "
+
+Позиции:
+";
+  items.forEach(function(i) { body += "- " + i.art + " | " + i.name + " | " + i.qty + " шт | " + (i.price * i.qty) + "
+"; });
   window.location.href = "mailto:info@it-trade.com.ru?subject=" + encodeURIComponent("Заявка от " + name) + "&body=" + encodeURIComponent(body);
   document.getElementById("cart-panel").classList.remove("open");
   document.getElementById("cart-overlay").classList.remove("open");
