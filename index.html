@@ -60,7 +60,7 @@ tr:hover td { background: #f8fafc; }
 </head>
 <body>
 <header>
-  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: 09.06.2026, 15:17:00</div></div>
+  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: 09.06.2026, 15:29:17</div></div>
   <button class="cart-btn" onclick="toggleCart()">&#128722; Корзина <span class="badge" id="cart-badge">0</span></button>
 </header>
 <div class="container">
@@ -119,7 +119,7 @@ function renderTable() {
     return;
   }
   items.forEach(function(p, i) {
-    var key = brand + "_" + i;
+    var key = brand + "_" + PRODUCTS[brand].indexOf(p);
     var tr = document.createElement("tr");
     var tdNum = document.createElement("td"); tdNum.style.color="#aaa"; tdNum.style.fontSize="11px"; tdNum.textContent = i+1; tr.appendChild(tdNum);
     var td1 = document.createElement("td"); td1.className = "art"; td1.textContent = p.art; tr.appendChild(td1);
