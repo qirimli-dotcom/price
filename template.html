@@ -28,7 +28,7 @@ tr:hover td { background: #f8fafc; }
 .stars { color: #f5a623; }
 .price { font-weight: 600; color: #1c4587; }
 .qty-input { width: 52px; padding: 5px 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; text-align: center; }
-.add-btn { background: #1c4587; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.add-btn { background: #1c4587; color: #fff; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; white-space: nowrap; }
 .add-btn.added { background: #27ae60; }
 .art { color: #888; font-size: 12px; }
 .cart-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; }
@@ -67,7 +67,7 @@ tr:hover td { background: #f8fafc; }
   <div class="tabs" id="tabs"></div>
   <div class="search-box"><input type="text" id="search" placeholder="Поиск по наименованию или артикулу..." oninput="renderTable()" /></div>
   <table>
-    <thead><tr><th>#</th><th>Арт. поставщика</th><th>Наименование</th><th>Наличие</th><th>Цена (RUB)</th><th>Кол-во</th><th></th></tr></thead>
+    <thead><tr><th>#</th><th>Артикул</th><th>Наименование</th><th>Наличие</th><th>Цена (RUB)</th><th>Кол-во</th><th></th></tr></thead>
     <tbody id="tbody"></tbody>
   </table>
 </div>
