@@ -67,7 +67,7 @@ tr:hover td { background: #f8fafc; }
   <div class="tabs" id="tabs"></div>
   <div class="search-box"><input type="text" id="search" placeholder="Поиск по наименованию или артикулу..." oninput="renderTable()" /></div>
   <table>
-    <thead><tr><th>Арт. поставщика</th><th>Наименование</th><th>Наличие</th><th>Цена (RUB)</th><th>Кол-во</th><th></th></tr></thead>
+    <thead><tr><th>#</th><th>Арт. поставщика</th><th>Наименование</th><th>Наличие</th><th>Цена (RUB)</th><th>Кол-во</th><th></th></tr></thead>
     <tbody id="tbody"></tbody>
   </table>
 </div>
@@ -121,6 +121,7 @@ function renderTable() {
   items.forEach(function(p, i) {
     var key = brand + "_" + i;
     var tr = document.createElement("tr");
+    var tdNum = document.createElement("td"); tdNum.style.color="#aaa"; tdNum.style.fontSize="11px"; tdNum.textContent = i+1; tr.appendChild(tdNum);
     var td1 = document.createElement("td"); td1.className = "art"; td1.textContent = p.art; tr.appendChild(td1);
     var td2 = document.createElement("td"); td2.textContent = p.name; tr.appendChild(td2);
     var td3 = document.createElement("td"); td3.innerHTML = "<span class='stars'>" + p.stars + "</span>"; tr.appendChild(td3);
