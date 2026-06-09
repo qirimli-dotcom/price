@@ -124,7 +124,7 @@ function renderTable() {
     var td1 = document.createElement("td"); td1.className = "art"; td1.textContent = p.art; tr.appendChild(td1);
     var td2 = document.createElement("td"); td2.textContent = p.name; tr.appendChild(td2);
     var td3 = document.createElement("td"); td3.innerHTML = "<span class='stars'>" + p.stars + "</span>"; tr.appendChild(td3);
-    var td4 = document.createElement("td"); td4.className = "price"; td4.textContent = Math.round(p.price); tr.appendChild(td4);
+    var td4 = document.createElement("td"); td4.className = "price"; td4.textContent = p.noPrice ? "По запросу" : Math.round(p.price); tr.appendChild(td4);
     var td5 = document.createElement("td");
     var inp = document.createElement("input");
     inp.className = "qty-input"; inp.type = "number"; inp.min = "1"; inp.value = "1"; inp.id = "qty_" + key;
