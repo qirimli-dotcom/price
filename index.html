@@ -58,7 +58,7 @@ tr:hover td { background: #f8fafc; }
 </head>
 <body>
 <header>
-  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: 09.06.2026, 11:14:55 МСК</div></div>
+  <div><h1>IT-Trade &#8212; Прайс</h1><div class="updated" id="updated-time">Обновлено: 09.06.2026, 11:25:11 МСК</div></div>
   <button class="cart-btn" onclick="toggleCart()">&#128722; Корзина <span class="badge" id="cart-badge">0</span></button>
 </header>
 <div class="container">
@@ -189,7 +189,14 @@ function submitOrder() {
   if (!name) { alert("Укажите ваше имя"); return; }
   if (!contact) { alert("Укажите телефон или Telegram"); return; }
   if (!items.length) { alert("Корзина пуста"); return; }
-  var body = "Новая заявка с прайса IT-Trade\n\nКлиент: " + name + "\nКонтакт: " + contact + (comment ? "\nКомментарий: " + comment : "") + "\n\nПозиции:\n";
+  var body = "Новая заявка с прайса IT-Trade
+
+Клиент: " + name + "
+Контакт: " + contact + (comment ? "
+Комментарий: " + comment : "") + "
+
+Позиции:
+";
   items.forEach(function(i) { body += "- " + i.art + " | " + i.name + " | " + i.qty + " шт | " + (i.price * i.qty) + "
 "; });
   window.location.href = "mailto:info@it-trade.com.ru?subject=" + encodeURIComponent("Заявка от " + name) + "&body=" + encodeURIComponent(body);
