@@ -10,7 +10,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>emailjs.init("9ARKPvGTU2pExxVWF");</script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 body { font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; background: #fafafa; color: #1a1a1a; }
 header { background: #171717; color: #fff; padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; gap: 12px; }
 header h1 { font-size: 18px; font-weight: 600; letter-spacing: -0.2px; }
@@ -35,7 +35,7 @@ tr:hover td { background: #f7f7f7; }
 .add-btn.added { background: #fff; color: #171717; border: 1px solid #171717; }
 .art { color: #888; font-size: 12px; font-family: 'IBM Plex Mono', monospace; }
 .photo-cell { width: 68px; }
-.thumb { width: 60px; height: 60px; object-fit: contain; border-radius: 6px; border: 1px solid #ececec; background: #fff; display: block; }
+.thumb { width: 60px; height: 60px; object-fit: contain; border-radius: 6px; border: 1px solid #ececec; background: #fff; display: block; -webkit-user-select: none; user-select: none; }
 .thumb.has-photo { cursor: pointer; }
 .thumb.has-photo:hover { border-color: #171717; }
 .photo-lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); z-index: 400; align-items: center; justify-content: center; cursor: zoom-out; }
@@ -85,32 +85,27 @@ tr:hover td { background: #f7f7f7; }
   thead { display: none; }
   tbody { display: flex; flex-direction: column; gap: 10px; }
   tr {
-    display: grid;
-    grid-template-columns: 1fr 64px;
-    grid-template-areas:
-      "name  photo"
-      "art   photo"
-      "stars photo"
-      "price price"
-      "qty   qty"
-      "btn   btn";
-    column-gap: 12px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
     background: #fff; border: 1px solid #ececec; border-radius: 10px; padding: 12px 14px;
   }
   td { border: none; padding: 2px 0; font-size: 13px; }
+  tr:hover td { background: transparent; }
 
   td:nth-child(1) { display: none; }
-  td:nth-child(2) { grid-area: photo; align-self: start; justify-self: end; width: auto; }
-  td:nth-child(2) .thumb { width: 64px; height: 64px; }
-  td:nth-child(3) { grid-area: art; font-size: 11px; }
+  td:nth-child(2) { position: absolute; right: 30px; bottom: 60px; }
+  td:nth-child(2) .thumb { width: 90px; height: 90px; }
+  td:nth-child(3) { order: 2; font-size: 11px; padding-right: 100px; }
   td:nth-child(3)::before { content: "Арт: "; color: #aaa; }
-  td:nth-child(4) { grid-area: name; font-size: 14px; font-weight: 500; padding-bottom: 4px; line-height: 1.4; }
-  td:nth-child(5) { grid-area: stars; font-size: 13px; }
-  td:nth-child(6) { grid-area: price; font-size: 17px; padding: 6px 0; }
+  td:nth-child(4) { order: 1; font-size: 14px; font-weight: 500; padding-bottom: 4px; line-height: 1.4; padding-right: 100px; }
+  td:nth-child(5) { order: 3; font-size: 13px; padding-right: 100px; }
+  td:nth-child(5)::before { content: "Наличие: "; font-size: 11px; color: #aaa; }
+  td:nth-child(6) { order: 4; font-size: 17px; padding: 6px 0; padding-right: 100px; }
   td:nth-child(6)::before { content: "Цена: "; font-family: 'IBM Plex Sans', sans-serif; font-weight: 400; font-size: 11px; color: #aaa; }
-  td:nth-child(7) { grid-area: qty; display: flex; align-items: center; gap: 8px; }
+  td:nth-child(7) { order: 5; display: flex; align-items: center; gap: 8px; }
   td:nth-child(7)::before { content: "Кол-во: "; font-size: 11px; color: #aaa; }
-  td:nth-child(8) { grid-area: btn; margin-top: 6px; }
+  td:nth-child(8) { order: 6; margin-top: 6px; }
   td:nth-child(8) .add-btn { width: 100%; padding: 10px; font-size: 13px; }
 
   .success-modal { padding: 24px; }
