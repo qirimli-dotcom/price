@@ -179,7 +179,7 @@ function renderTable() {
     var tr = document.createElement("tr");
     var tdNum = document.createElement("td"); tdNum.style.color="#aaa"; tdNum.style.fontSize="11px"; tdNum.textContent = i+1; tr.appendChild(tdNum);
     var tdPhoto = document.createElement("td"); tdPhoto.className = "photo-cell";
-    var src = (typeof IMAGES !== "undefined" && IMAGES[p.name]) ? IMAGES[p.name] : null;
+    var src = (typeof IMAGES !== "undefined" && IMAGES[p.name.trim()]) ? IMAGES[p.name.trim()] : null;
     if (src) {
       var img = document.createElement("img"); img.className = "thumb"; img.src = src; img.loading = "lazy"; img.alt = "";
       tdPhoto.appendChild(img);
